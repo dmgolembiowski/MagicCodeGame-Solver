@@ -1,0 +1,60 @@
+#import pudb; pu.db
+#from game.csp import *
+from magic.elements import (
+    Wizard,
+    WizAction, 
+    WizOrient,
+    Terrain,
+    Thread,
+    Program,
+    Matrix)
+from magic.state import State
+matrix = (
+    Matrix.from_dimensions(4, 1)
+    .put((0,0), Terrain.Normal)
+    .put((0,1), Terrain.Normal)
+    .put((0,2), Terrain.Normal)
+    .put((0,3), Terrain.Disk)
+)
+
+wizard = Wizard(x=0, y=0, orientation=WizOrient.north)
+
+main_thread = Thread.main(
+    actions=[],
+    available_slots=12)
+
+function_1 = Thread.function_1(
+    actions=[],
+    available_slots=12)
+
+function_2 = Thread.function_2(
+    actions=[],
+    available_slots=1)
+
+main_thread.actions.extend([
+        #WizAction.rotate_right,
+        WizAction.fn1_call,
+        WizAction.fn1_call,
+        WizAction.fn1_call,
+        WizAction.power
+])
+
+function_1.actions.extend([
+        WizAction.walk,
+        #WizAction.rotate_right
+])
+'''
+function_2.actions.extend([
+        WizAction.walk
+])
+'''
+exe = Program(main_thread, function_1, function_2, matrix, wizard)
+exe.collect()
+game_state = State(exe)
+for entry in game_state.program.instructions:
+    #print(entry)
+    game_state.apply_action(entry)
+    print(game_state.history[-1])
+    if game_state.level_complete():
+        print("Success! Level complete")
+print("Failure..")
