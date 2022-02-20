@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='magiccode',
     version='0.1.0',
-    description='Problem solving agent for Nintendo Switch "Brain Code" levels',
+    description='Problem solving agent for Plitka Game\'s "Brain Code" levels, on the Nintendo Switch store',
     author='David Golembiowski',
     author_email='dmgolembiowski@gmail.com',
     url='https://github.com/dmgolembiowski/MagicCodeGame-Solver',
